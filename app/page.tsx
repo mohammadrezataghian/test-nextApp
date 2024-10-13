@@ -1,9 +1,15 @@
+import ResponsiveAppBar from "./NavBar"
 
-
-export default function Home() {
+const Home = () => {
   return (
-    <>
-    <h1>Hello-world</h1>
-    </>
-  );
+	<>
+  <nav className="w-full">
+    <ResponsiveAppBar/>
+  
+  </nav>
+	</>
+	
+  )
 }
+
+export default Home
