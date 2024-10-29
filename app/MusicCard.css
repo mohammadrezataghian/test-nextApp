@@ -1,0 +1,119 @@
+.music-card {
+    width: 169px;
+    /* padding: 8px; */
+    border: 1px solid white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+  
+  .music-cover {
+    width: 100%;
+    border-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  
+  .music-title {
+    margin: 15px 0;
+    font-size: 18px;
+  }
+  
+  .audio-controls {
+    margin-top: 10px;
+  }
+  
+  .audio-controls button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .audio-controls button:hover {
+    background-color: #0056b3;
+  }
+  
+  .action-buttons {
+    /* margin-top: 10px; */
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .action-buttons button {
+    padding: 0;
+    background-color: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  .action-buttons .like-button {
+    color: #1e90ff; /* Default color for the heart icon */
+    font-size: 30px; /* Adjust icon size */
+  }
+  
+  .action-buttons .like-button:hover {
+    color: red; /* Change color on hover */
+  }
+  
+  .liked {
+    background-color: #ffc107;
+  }
+  
+  .save-button {
+    background: none; /* Remove background for the icon */
+    border: none; /* Remove border for the icon */
+    cursor: pointer; /* Change cursor to pointer */
+    color: #1e90ff; /* Default color for the bookmark icon */
+    font-size: 30px; /* Adjust icon size */
+  }
+  
+  .save-button:hover {
+    color: #2b2b2b; /* Change color on hover */
+  }
+  
+  
+  /* Hide default audio controls */
+audio::-webkit-media-controls {
+  display: none;
+}
+
+.custom-audio-player {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.play-button {
+  background-color: #1e90ff; /* Blue color for the play button */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.progress-bar {
+  position: relative;
+  width: 80%;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #1e90ff;
+  transition: width 0.1s ease;
+}

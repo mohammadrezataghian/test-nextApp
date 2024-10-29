@@ -13,8 +13,18 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AudiotrackOutlinedIcon from '@mui/icons-material/AudiotrackOutlined';
+import CustomizedMenus from './Menu';
 
-const pages = ['Classic', 'Rap/Hiphop', 'Pop',"R & B","Jazz","Rock","Metal"];
+const pages = [
+  { title: 'New/Latest' },
+  { title: 'Playlists' },
+  { 
+    title: 'Music Categories',
+    subMenu: ['Pop', 'Rock', 'Jazz', 'Hip Hop', 'R & B']
+  },
+  { title: 'Singers' },
+  { title: 'Top Chart' }
+];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -87,8 +97,8 @@ function ResponsiveAppBar() {
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+                <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                  <Typography sx={{ textAlign: 'center' }}>{page.title}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -112,17 +122,23 @@ function ResponsiveAppBar() {
           >
             MAA Music
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
+          <Box  sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' },alignItems: 'center' }}>
+  {pages.map((page) => (
+    <Box key={page.title}>
+      {/* If the page has a submenu, render CustomizedMenus */}
+      {page.subMenu ? (
+        <CustomizedMenus menuTitle={page.title} subMenu={page.subMenu} />
+      ) : (
+        <Button
+          onClick={handleCloseNavMenu}
+          sx={{ my: 2, color: 'white', display: 'block' }}
+        >
+          {page.title}
+        </Button>
+      )}
+    </Box>
+  ))}
+</Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open profile">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
