@@ -15,7 +15,7 @@ const Home = () => {
     <h1 className="w-full h-7 ps-3 font-bold text-3xl mb-5 ">
       NEW:
     </h1>
-    <div className="w-full flex justify-center gap-5 flex-wrap bg-white py-5">
+    <div className="w-full flex justify-center gap-5 flex-wrap bg-white py-5 px-2">
     <MusicCard/>
     <MusicCard/>
     <MusicCard/>
@@ -25,7 +25,39 @@ const Home = () => {
     <MusicCard/>
     <MusicCard/>
     </div>
-  
+    
+  </div>
+  <div className="w-full  mt-10  py-8  overflow-hidden">
+    <h1 className="w-full h-7 ps-3 font-bold text-3xl mb-5 ">
+      Top Charts:
+    </h1>
+    <div className="w-full flex justify-center gap-5 flex-wrap bg-white py-5 px-2">
+    <MusicCard/>
+    <MusicCard/>
+    <MusicCard/>
+    <MusicCard/>
+    <MusicCard/>
+    <MusicCard/>
+    <MusicCard/>
+    <MusicCard/>
+    </div>
+
+  </div>
+  <div className="w-full  mt-10  py-8  overflow-hidden">
+    <h1 className="w-full h-7 ps-3 font-bold text-3xl mb-5 ">
+      Popular:
+    </h1>
+    <div className="w-full flex justify-center gap-5 flex-wrap bg-white py-5 px-2">
+    <MusicCard/>
+    <MusicCard/>
+    <MusicCard/>
+    <MusicCard/>
+    <MusicCard/>
+    <MusicCard/>
+    <MusicCard/>
+    <MusicCard/>
+    </div>
+
   </div>
 	</>
 	
