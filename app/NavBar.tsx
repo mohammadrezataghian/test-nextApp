@@ -17,21 +17,43 @@ import CustomizedMenus from "./Menu";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
+import axios from "axios";
 
-const pages = [
-  { title: "New/Latest", href: "/new-latest" },
-  { title: "Popular", href: "./" },
-  {
-    title: "Music Categories",
-    href: "./",
-    subMenu: ["Pop", "Rock", "Jazz", "Hip Hop", "R & B", "Classic"],
-  },
-  { title: "Singers", href: "./" },
-  { title: "Top Chart", href: "./" },
-];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+// const pages = [
+//   { title: "New/Latest", href: "/new-latest","submenu":[] },
+//   { title: "Popular", href: "./","submenu":[] },
+//   {
+//     title: "Music Categories",
+//     href: "./",
+//     subMenu: ["Pop", "Rock", "Jazz", "Hip Hop", "R & B", "Classic"],
+//   },
+//   { title: "Singers", href: "./","submenu":[] },
+//   { title: "Top Chart", href: "./","submenu":[] },
+// ];
+interface Page {
+  id: string;
+  title: string;
+  href: string;
+  subMenu?: string[];
+}
+const settings = ["Account", "Login", "Logout"];
 
 function ResponsiveAppBar() {
+
+  const [pages, setPages] =  React.useState<Page[]>([]);
+  React.useEffect(() => {
+    async function fetchPages() {
+      try {
+        const response = await axios.get('/api/pages');
+        setPages(response.data);
+      } catch (error) {
+        console.error('Error fetching pages:', error);
+      }
+    }
+
+    fetchPages();
+  }, []);
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -123,7 +145,7 @@ function ResponsiveAppBar() {
                           "text-blue-500": page.href === router,
                           "text-black": page.href !== router,
                         })}
-                      >
+                      passHref>
                         {page.title}
                       </Link>
                     </Typography>
