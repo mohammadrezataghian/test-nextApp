@@ -18,6 +18,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
 import axios from "axios";
+import { useSession, signOut } from "next-auth/react";
 
 // const pages = [
 //   { title: "New/Latest", href: "/new-latest","submenu":[] },
@@ -36,7 +37,11 @@ interface Page {
   href: string;
   subMenu?: string[];
 }
-const settings = ["Account", "Login", "Logout"];
+// const settings = [
+//   {title:"Account",href:""},
+//   {title:"Login",href:"/login"},
+//   {title:"Logout",href:""}
+// ];
 
 function ResponsiveAppBar() {
 
@@ -53,6 +58,21 @@ function ResponsiveAppBar() {
 
     fetchPages();
   }, []);
+
+  const { data: session } = useSession(); // Using the `useSession` hook to get the session
+  React.useEffect(() => {
+    // Log session data to see if you are logged in or logged out
+    console.log("Session:", session);
+  }, [session])
+  const settings = session
+    ? [
+        { title: "Profile", href: "/profile" }, // Update this with the correct account page link
+        { title: "Logout", href: "#", onClick: () => signOut() }, // Logout action
+      ]
+    : [
+        { title: "Profile", href: "" }, // Placeholder if user isn't logged in
+        { title: "Login", href: "/login" }, // Login link for logged-out users
+      ];
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -233,9 +253,11 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem key={setting.title} onClick={setting.onClick || handleCloseUserMenu}>
                     <Typography sx={{ textAlign: "center" }}>
-                      {setting}
+                      <Link href={setting.href} passHref>
+                      {setting.title}
+                      </Link>
                     </Typography>
                   </MenuItem>
                 ))}
