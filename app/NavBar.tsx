@@ -59,14 +59,16 @@ function ResponsiveAppBar() {
     fetchPages();
   }, []);
 
-  const { data: session } = useSession(); // Using the `useSession` hook to get the session
+  const { data: session,status } = useSession(); // Using the `useSession` hook to get the session
   React.useEffect(() => {
     // Log session data to see if you are logged in or logged out
+    // if (status === "loading") {
+    //   console.log("Loading session...");}
     console.log("Session:", session);
-  }, [session])
+  }, [session,status])
   const settings = session
     ? [
-        { title: "Profile", href: "/profile" }, // Update this with the correct account page link
+        { title: "Profile", href: `/profile/${session?.user?.id}` }, // Update this with the correct account page link
         { title: "Logout", href: "#", onClick: () => signOut() }, // Logout action
       ]
     : [

@@ -25,14 +25,14 @@ const authOptions: NextAuthOptions = {
   
             if (user) {
               // If a matching user is found, return the user object
-              return { id: user.username, name: user.username, username: user.username }
+              return { id: user.id, username: user.username,name:user.username }
             } else {
               // If no user is found or credentials are incorrect, return null
-              return null
+              throw new Error('Invalid credentials');
             }
           } catch (error) {
             console.error("Error during authentication", error)
-            return null
+            throw new Error('invalid username or password');
           }
         },
       }),

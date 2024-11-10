@@ -25,15 +25,18 @@ const LoginPage = () => {
       setError('');
   
       const result = await signIn('credentials', {
-        redirect: true,
+        redirect: false,
         username,
         password,
         callbackUrl:'/'
       });
   
       if (result?.error) {
-        setError('Invalid username or password');
-      } 
+        setError(result.error); // This will display the error thrown from route.ts
+    } else {
+        router.push('/');
+        router.refresh()
+    } 
     //   else {
     //     router.push('/');
     //   }
@@ -66,7 +69,7 @@ const LoginPage = () => {
           boxShadow: 2,
         }}
       >
-        <Typography variant="h5" align="center">
+        <Typography variant="h4" align="center" className='select-none'>
           Login
         </Typography>
         {error && <Typography color="error">{error}</Typography>}
