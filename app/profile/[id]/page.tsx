@@ -1,3 +1,4 @@
+import MusicCard from '@/app/Card'
 import ResponsiveAppBar from '@/app/NavBar'
 import React from 'react'
 
@@ -5,19 +6,39 @@ const dynamicUserPage = () => {
   return (
     <>
       <ResponsiveAppBar/>
-      <div className='flex w-full h-96'>
-        <div className='w-1/2 bg-green-500 h-full border-r-2 border-black pt-3'>
-        <h5 className='text-center font-bold text-3xl'>
-            Liked:
+      <div className='flex w-full h-auto'>
+        <div className='w-1/2 h-auto pt-5'>
+        <h5 className='text-center font-bold text-3xl mb-5'>
+            Liked
         </h5>
-        <div className='flex'>
+        <div className='w-full h-auto p-5 border-r-2 border-gray-200 pt-0'>
         {/* create the cards div */}
+        <div className='w-full h-auto border-2 border-gray-300 rounded-xl flex flex-wrap gap-3 justify-center p-3 bg-slate-100'>
+            <MusicCard/>
+            <MusicCard/>
+            <MusicCard/>
+            <MusicCard/>
+            <MusicCard/>
+            <MusicCard/>
         </div>
         </div>
-        <div className='w-1/2 bg-red-500 h-full'>
-        <h5 className='text-center font-bold text-3xl pt-3'>
-            Saved:
+        </div>
+        {/* right side */}
+        <div className='w-1/2 h-auto pt-5'>
+        <h5 className='text-center font-bold text-3xl mb-5'>
+            Saved
         </h5>
+        <div className='w-full h-auto p-5 pt-0'>
+        {/* create the cards div */}
+        <div className='w-full h-auto border-2 border-gray-300 rounded-xl flex flex-wrap gap-3 justify-center p-3 bg-slate-100'>
+            <MusicCard/>
+            <MusicCard/>
+            <MusicCard/>
+            <MusicCard/>
+            <MusicCard/>
+            <MusicCard/>
+        </div>
+        </div>
         </div>
       </div>
     </>
