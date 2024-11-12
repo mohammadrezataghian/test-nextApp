@@ -17,13 +17,6 @@ const Home = () => {
     </h1>
     <div className="w-full flex justify-center gap-5 flex-wrap bg-white py-5 px-2">
     <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
     </div>
     
   </div>
@@ -33,13 +26,6 @@ const Home = () => {
     </h1>
     <div className="w-full flex justify-center gap-5 flex-wrap bg-white py-5 px-2">
     <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
     </div>
 
   </div>
@@ -48,13 +34,6 @@ const Home = () => {
       Popular:
     </h1>
     <div className="w-full flex justify-center gap-5 flex-wrap bg-white py-5 px-2">
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
-    <MusicCard/>
     <MusicCard/>
     </div>
 

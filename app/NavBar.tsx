@@ -68,12 +68,12 @@ function ResponsiveAppBar() {
   }, [session,status])
   const settings = session
     ? [
-        { title: "Profile", href: `/profile/${session?.user?.id}` }, // Update this with the correct account page link
-        { title: "Logout", href: "#", onClick: () => signOut() }, // Logout action
+        { id:"1",title: "Profile", href: `/profile/${session?.user?.id}` }, // Update this with the correct account page link
+        { id:"2",title: "Logout", href: "#", onClick: () => signOut() }, // Logout action
       ]
     : [
-        { title: "Profile", href: "" }, // Placeholder if user isn't logged in
-        { title: "Login", href: "/login" }, // Login link for logged-out users
+        { id:"1",title: "Profile", href: "" }, // Placeholder if user isn't logged in
+        { id:"2",title: "Login", href: "/login" }, // Login link for logged-out users
       ];
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -159,7 +159,7 @@ function ResponsiveAppBar() {
                 sx={{ display: { xs: "block", md: "none" } }}
               >
                 {pages.map((page) => (
-                  <MenuItem key={page.title} onClick={handleCloseNavMenu}>
+                  <MenuItem key={page.id} onClick={handleCloseNavMenu}>
                     <Typography sx={{ textAlign: "center" }}>
                       <Link
                         href={`${page.href}`}
@@ -204,7 +204,7 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <Box key={page.title}>
+                <Box key={page.id}>
                   {/* If the page has a submenu, render CustomizedMenus */}
                   {page.subMenu ? (
                     <CustomizedMenus
@@ -255,7 +255,7 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting.title} onClick={setting.onClick || handleCloseUserMenu}>
+                  <MenuItem key={setting.id} onClick={setting.onClick || handleCloseUserMenu}>
                     <Typography sx={{ textAlign: "center" }}>
                       <Link href={setting.href} passHref>
                       {setting.title}

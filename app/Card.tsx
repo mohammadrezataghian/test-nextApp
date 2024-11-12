@@ -5,6 +5,15 @@ import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { HiOutlineBookmark } from 'react-icons/hi';
 import { BsFillBookmarkFill } from 'react-icons/bs';
 import { CiPlay1,CiPause1 } from "react-icons/ci";
+import axios from 'axios'
+
+interface MusicTrack {
+  cover: string;
+  title: string;
+  src: string;
+  id: string;
+}
+
 
 const MusicCard = () => {
   const audioRef = useRef(null);
@@ -16,6 +25,19 @@ const MusicCard = () => {
   const [progress, setProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [musicData, setMusicData] = useState<MusicTrack[]>([]);
+
+  useEffect(() => {
+    const fetchMusicData = async () => {
+      try {
+        const response = await axios.get('/api/cards');
+        setMusicData(response.data);
+      } catch (error) {
+        console.error('Error fetching music data:', error);
+      }
+    };
+    fetchMusicData();
+  }, []);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -82,9 +104,11 @@ const MusicCard = () => {
   };
 
   return (
-    <div className="music-card">
-      <img src="/images/card-media/folder.jpg" alt="Music Cover" className="music-cover" />
-      <h1 className="music-title">Song Title - Singer Name</h1>
+    <>
+    {musicData.map((track)=>(
+      <div key={track.id} className="music-card">
+      <img src={track.cover} alt="Music Cover" className="music-cover" />
+      <h1 className="music-title">{track.title}</h1>
 
       <div className="custom-audio-player mt-4">
         <button onClick={handlePlayPause} className="play-button">
@@ -108,7 +132,7 @@ const MusicCard = () => {
 
       <audio
         ref={audioRef}
-        src="/foo.mp3" // Ensure this path is correct
+        src={track.src} // Ensure this path is correct
         onTimeUpdate={handleTimeUpdate}
         onEnded={() => {
           setIsPlaying(false);
@@ -126,6 +150,8 @@ const MusicCard = () => {
         </button>
       </div>
     </div>
+    ))}
+    </>
   );
 };
 
