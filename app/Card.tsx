@@ -4,8 +4,8 @@ import './MusicCard.css';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { HiOutlineBookmark } from 'react-icons/hi';
 import { BsFillBookmarkFill } from 'react-icons/bs';
-import { CiPlay1,CiPause1 } from "react-icons/ci";
-import axios from 'axios'
+import { CiPlay1, CiPause1 } from "react-icons/ci";
+import axios from 'axios';
 
 interface MusicTrack {
   cover: string;
@@ -14,17 +14,7 @@ interface MusicTrack {
   id: string;
 }
 
-
 const MusicCard = () => {
-  const audioRef = useRef(null);
-  const progressBarRef = useRef(null);
-
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
   const [musicData, setMusicData] = useState<MusicTrack[]>([]);
 
   useEffect(() => {
@@ -38,6 +28,31 @@ const MusicCard = () => {
     };
     fetchMusicData();
   }, []);
+
+  return (
+    <>
+      {musicData.map((track) => (
+        <MusicCardItem key={track.id} track={track} />
+      ))}
+    </>
+  );
+};
+
+interface MusicCardItemProps {
+  track: MusicTrack;
+}
+
+const MusicCardItem = ({ track }: MusicCardItemProps) => {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const [trackState, setTrackState] = useState({
+    isLiked: false,
+    isSaved: false,
+  });
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -56,9 +71,9 @@ const MusicCard = () => {
   const handlePlayPause = () => {
     const audio = audioRef.current;
     if (isPlaying) {
-      audio.pause();
+      audio?.pause();
     } else {
-      audio.play();
+      audio?.play();
     }
     setIsPlaying(!isPlaying);
   };
@@ -71,68 +86,49 @@ const MusicCard = () => {
     }
   };
 
-  // const handleProgressClick = (e) => {
-  //   if (duration <= 0) return; // Check if duration is still null
-  
-  //   const progressBar = progressBarRef.current;
-  //   const rect = progressBar.getBoundingClientRect();
-  //   const clickX = e.clientX - rect.left; // Click position relative to the left edge of the progress bar
-  //   const width = rect.width; // Width of the progress bar
-  //   const newTime = (clickX / width) * duration; // Calculate new time based on click position
-  
-  //   // Ensure the new time is within the bounds of the audio duration
-  //   if (newTime >= 0 && newTime <= duration) {
-  //     audioRef.current.currentTime = newTime; // Set the audio current time
-  //     setCurrentTime(newTime); // Update current time state
-  //     setProgress((newTime / duration) * 100); // Update progress state
-  //   }
-  // };
-;
+  const handleLike = () => {
+    setTrackState((prevState) => ({
+      ...prevState,
+      isLiked: !prevState.isLiked,
+    }));
+  };
 
-  const formatTime = (time) => {
+  // Handle save state toggle
+  const handleSave = () => {
+    setTrackState((prevState) => ({
+      ...prevState,
+      isSaved: !prevState.isSaved,
+    }));
+  };
+
+  const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
-  const handleLike = () => {
-    setIsLiked(!isLiked);
-  };
-
-  const handleSave = () => {
-    setIsSaved(!isSaved);
-  };
-
   return (
-    <>
-    {musicData.map((track)=>(
-      <div key={track.id} className="music-card">
+    <div className="music-card">
       <img src={track.cover} alt="Music Cover" className="music-cover" />
       <h1 className="music-title">{track.title}</h1>
 
       <div className="custom-audio-player mt-4">
         <button onClick={handlePlayPause} className="play-button">
-          {isPlaying ? <CiPause1/> : <CiPlay1/>}
+          {isPlaying ? <CiPause1 /> : <CiPlay1 />}
         </button>
 
-        <div
-          className="progress-bar"
-          ref={progressBarRef}
-          // onClick={handleProgressClick}
-          // style={{ cursor: 'pointer' }} // Change cursor on hover
-        >
+        <div className="progress-bar">
           <div className="progress" style={{ width: `${progress}%` }}></div>
         </div>
 
         <div className="timer">
-          <span>{formatTime(currentTime)}</span>  
-          {/* <span>{formatTime(duration)}</span> */}
+          <span>{formatTime(currentTime)}</span>
         </div>
       </div>
 
       <audio
         ref={audioRef}
-        src={track.src} // Ensure this path is correct
+        src={track.src} 
         onTimeUpdate={handleTimeUpdate}
         onEnded={() => {
           setIsPlaying(false);
@@ -143,15 +139,13 @@ const MusicCard = () => {
 
       <div className="action-buttons">
         <button onClick={handleLike} className="like-button">
-          {isLiked ? <FaHeart style={{ color: 'red' }} /> : <FaRegHeart />}
+          {trackState.isLiked ? <FaHeart style={{ color: 'red' }} /> : <FaRegHeart />}
         </button>
         <button onClick={handleSave} className="save-button">
-          {isSaved ? <BsFillBookmarkFill style={{ color: '#2b2b2b' }} /> : <HiOutlineBookmark />}
+          {trackState.isSaved ? <BsFillBookmarkFill style={{ color: '#2b2b2b' }} /> : <HiOutlineBookmark />}
         </button>
       </div>
     </div>
-    ))}
-    </>
   );
 };
 
