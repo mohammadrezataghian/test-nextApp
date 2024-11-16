@@ -233,11 +233,27 @@ function ResponsiveAppBar() {
               ))}
             </Box>
             <Box sx={{ flexGrow: 0 }}>
+            {session ? (
               <Tooltip title="Open profile">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
+                  <Avatar
+          alt={session?.user?.name || "User"}
+          src={session?.user?.image || ""}
+        >
+          {/* Show the first letter of the user's name if no image is available */}
+          {!session?.user?.image && session?.user?.name?.charAt(0).toUpperCase()}
+        </Avatar>
                 </IconButton>
               </Tooltip>
+            ) : (
+              <Tooltip title="Login">
+      <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+        <Avatar />
+      </IconButton>
+    </Tooltip>
+  )}
+            
               <Menu
                 sx={{ mt: "45px" }}
                 id="menu-appbar"
