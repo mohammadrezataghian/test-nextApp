@@ -49,18 +49,18 @@ const MusicCardItem: React.FC<MusicCardProps> = ({ track }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const dispatch = useDispatch();
-  const likedTracks = useSelector((state: RootState) => state.music.likedTracks);
-  const savedTracks = useSelector((state: RootState) => state.music.savedTracks);
+  const likedTrackIds = useSelector((state: RootState) => state.music.likedTrackIds);
+  const savedTrackIds = useSelector((state: RootState) => state.music.savedTrackIds);
 
-  const isLiked = likedTracks.some((likedTrack) => likedTrack.id === track.id);
-  const isSaved = savedTracks.some((savedTrack) => savedTrack.id === track.id);
+  const isLiked = likedTrackIds.includes(track.id)
+  const isSaved = savedTrackIds.includes(track.id)
 
   const handleLike = () => {
-    dispatch(toggleLikeTrack(track));
+    dispatch(toggleLikeTrack(track.id));
   };
 
   const handleSave = () => {
-    dispatch(toggleSaveTrack(track));
+    dispatch(toggleSaveTrack(track.id));
   };
   // const [trackState, setTrackState] = useState({
   //   isLiked: false,
@@ -122,7 +122,7 @@ const MusicCardItem: React.FC<MusicCardProps> = ({ track }) => {
 
   return (
     <div className="music-card">
-      <img src={track.cover} alt="Music Cover" className="music-cover" />
+      <img src={track.cover} alt={track.title} className="music-cover" />
       <h1 className="music-title">{track.title}</h1>
 
       <div className="custom-audio-player mt-4">
