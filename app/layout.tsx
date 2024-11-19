@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import SessionProviderWrapper from "./components/SessionProviderWrapper";
+import ReduxProvider from './components/ReduxProvider';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,7 +35,9 @@ export default function RootLayout({
       >
         <main>
         <SessionProviderWrapper >
+        <ReduxProvider>
           {children}
+          </ReduxProvider>
         </SessionProviderWrapper>
         </main>
       </body>

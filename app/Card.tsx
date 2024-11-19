@@ -6,12 +6,13 @@ import { HiOutlineBookmark } from 'react-icons/hi';
 import { BsFillBookmarkFill } from 'react-icons/bs';
 import { CiPlay1, CiPause1 } from "react-icons/ci";
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from './store';
+import {  toggleLikeTrack, toggleSaveTrack } from './store/musicSlice';
+import { MusicTrack } from './types';
 
-interface MusicTrack {
-  cover: string;
-  title: string;
-  src: string;
-  id: string;
+interface MusicCardProps {
+  track: MusicTrack;
 }
 
 const MusicCard = () => {
@@ -22,6 +23,7 @@ const MusicCard = () => {
       try {
         const response = await axios.get('/api/cards');
         setMusicData(response.data);
+        console.log('Fetched Tracks:', response.data);
       } catch (error) {
         console.error('Error fetching music data:', error);
       }
@@ -38,21 +40,32 @@ const MusicCard = () => {
   );
 };
 
-interface MusicCardItemProps {
-  track: MusicTrack;
-}
 
-const MusicCardItem = ({ track }: MusicCardItemProps) => {
+
+const MusicCardItem: React.FC<MusicCardProps> = ({ track }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const dispatch = useDispatch();
+  const likedTracks = useSelector((state: RootState) => state.music.likedTracks);
+  const savedTracks = useSelector((state: RootState) => state.music.savedTracks);
 
-  const [trackState, setTrackState] = useState({
-    isLiked: false,
-    isSaved: false,
-  });
+  const isLiked = likedTracks.some((likedTrack) => likedTrack.id === track.id);
+  const isSaved = savedTracks.some((savedTrack) => savedTrack.id === track.id);
+
+  const handleLike = () => {
+    dispatch(toggleLikeTrack(track));
+  };
+
+  const handleSave = () => {
+    dispatch(toggleSaveTrack(track));
+  };
+  // const [trackState, setTrackState] = useState({
+  //   isLiked: false,
+  //   isSaved: false,
+  // });
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -86,20 +99,20 @@ const MusicCardItem = ({ track }: MusicCardItemProps) => {
     }
   };
 
-  const handleLike = () => {
-    setTrackState((prevState) => ({
-      ...prevState,
-      isLiked: !prevState.isLiked,
-    }));
-  };
+  // const handleLike = () => {
+  //   setTrackState((prevState) => ({
+  //     ...prevState,
+  //     isLiked: !prevState.isLiked,
+  //   }));
+  // };
 
-  // Handle save state toggle
-  const handleSave = () => {
-    setTrackState((prevState) => ({
-      ...prevState,
-      isSaved: !prevState.isSaved,
-    }));
-  };
+  // // Handle save state toggle
+  // const handleSave = () => {
+  //   setTrackState((prevState) => ({
+  //     ...prevState,
+  //     isSaved: !prevState.isSaved,
+  //   }));
+  // };
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
@@ -139,10 +152,10 @@ const MusicCardItem = ({ track }: MusicCardItemProps) => {
 
       <div className="action-buttons">
         <button onClick={handleLike} className="like-button">
-          {trackState.isLiked ? <FaHeart style={{ color: 'red' }} /> : <FaRegHeart />}
+        {isLiked ? <FaHeart style={{ color: 'red' }} /> : <FaRegHeart />}
         </button>
         <button onClick={handleSave} className="save-button">
-          {trackState.isSaved ? <BsFillBookmarkFill style={{ color: '#2b2b2b' }} /> : <HiOutlineBookmark />}
+        {isSaved ? <BsFillBookmarkFill style={{ color: '#2b2b2b' }} /> : <HiOutlineBookmark />}
         </button>
       </div>
     </div>
