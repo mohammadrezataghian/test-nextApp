@@ -1,6 +1,7 @@
 import ResponsiveAppBar from "./NavBar"
 import Slider from "./Slider"
 import MusicCard from "./Card"
+import Footer from "./Footer"
 
 const Home = () => {
   return (
@@ -36,8 +37,10 @@ const Home = () => {
     <div className="w-full flex justify-center gap-5 flex-wrap bg-white py-5 px-2">
     <MusicCard/>
     </div>
-
   </div>
+  <div className="w-full h-auto">
+      <Footer/>
+    </div>
 	</>
 	
   )

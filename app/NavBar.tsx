@@ -108,7 +108,7 @@ function ResponsiveAppBar() {
   return (
     <>
       <AppBar position="static">
-        <Container maxWidth="xl">
+        <Container maxWidth="xl" className="bg-[#111827]">
           <Toolbar disableGutters>
             <AudiotrackOutlinedIcon
               sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
